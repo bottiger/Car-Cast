@@ -5,7 +5,7 @@
 				android:layout_height="fill_parent"
                 android:padding="5dip"
                 android:layout_margin="5dip" >
-                
+          <!--       
 	<Button android:id="@+id/quickTour"
 	 android:layout_alignParentTop="true"
 	 android:layout_centerInParent="true"
@@ -39,5 +39,5 @@
      android:layout_width="200px"
       android:onClick="ccwebsite"
 	 />
-
+-->
 </RelativeLayout>

@@ -1,7 +1,7 @@
-package com.jadn.cc.services;
+package com.bottiger.cc.services;
 
-import com.jadn.cc.services.ContentService;
-import com.jadn.cc.services.DownloadHelper;
+import com.bottiger.cc.services.ContentService;
+import com.bottiger.cc.services.DownloadHelper;
 
 import junit.framework.TestCase;
 
@@ -11,7 +11,7 @@ public class DownloadHelperTest extends TestCase {
 		DownloadHelper downloadHelper = new DownloadHelper(10);
 		
 //		downloadHelper.downloadNewPodCasts(new ContentService(),
-//			"carcastTest@jadn.com");
+//			"carcastTest@bottiger.com");
 		
 	}
 
