@@ -14,8 +14,8 @@
         android:icon="@drawable/ccp_launcher"
         android:label="Car Cast" >
         <activity
-            android:name=".ui.CarCast"
-            android:label="Car Cast" >
+            android:name=".ui.MainActivity"
+            android:label="Car Cast" > <!-- .ui.CarCast -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
