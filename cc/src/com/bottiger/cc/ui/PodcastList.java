@@ -12,8 +12,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -27,40 +29,60 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import com.bottiger.cc.core.CarCastApplication;
+import com.bottiger.cc.core.ContentServiceListener;
 import com.bottiger.cc.core.Util;
 import com.bottiger.cc.services.ContentService;
 import com.bottiger.cc.services.DownloadHistory;
 import com.bottiger.cc.services.MetaFile;
 import com.bottiger.cc.services.MetaHolder;
+import com.bottiger.cc.services.PlayStatusListener;
 import com.bottiger.cc.R;
 
-public class PodcastList extends BaseActivity {
+public class PodcastList extends Fragment implements ContentServiceListener, PlayStatusListener {
 
+	View V;
+	ContentService contentService;
 	SimpleAdapter podcastsAdapter;
 	ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
 
+	/*
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
 			showPodcasts();
 		}
-	}
+	}*/
 
-	@Override
 	protected void onContentService() {
 		showPodcasts();
 	}
-
+	
+	public void onContentServiceChanged(ContentService service) {
+		if (contentService != null) {
+			contentService.setPlayStatusListener(null);
+		}
+	    contentService = service;
+	    if (service != null) {
+	    	service.setPlayStatusListener(this);
+            onContentService();
+        }
+	}
+	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.podcast_list_wbar);
+	public void playStateUpdated(boolean playing) {
+		// default implementation does nothing
+	}
 
-		setTitle(CarCastApplication.getAppTitle() + ": Downloaded podcasts");
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceStat) {
+		//setContentView(R.layout.podcast_list_wbar);
 
-		Button deleteButton = (Button) findViewById(R.id.delete);
-		deleteButton.setOnClickListener(new OnClickListener() {
+		//setTitle(CarCastApplication.getAppTitle() + ": Downloaded podcasts");
+		
+		View V = inflater.inflate(R.layout.podcast_list_wbar, container, false);
+
+		Button deleteButton = (Button) V.findViewById(R.id.delete);
+		/*deleteButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				new AlertDialog.Builder(PodcastList.this).setIcon(android.R.drawable.ic_dialog_alert)
@@ -79,9 +101,10 @@ public class PodcastList extends BaseActivity {
 							}
 						}).setNegativeButton("Cancel", null).show();
 			};
-		});
+		});*/
+		return V;
 
-		((Button) findViewById(R.id.top)).setOnClickListener(new OnClickListener() {
+		/*((Button) findViewById(R.id.top)).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (contentService.isPlaying())
@@ -90,9 +113,9 @@ public class PodcastList extends BaseActivity {
 				podcastsAdapter.notifyDataSetChanged();
 				showPodcasts();
 			};
-		});
+		});*/
 
-		((Button) findViewById(R.id.up)).setOnClickListener(new OnClickListener() {
+		/*((Button) findViewById(R.id.up)).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (contentService.isPlaying())
@@ -101,9 +124,9 @@ public class PodcastList extends BaseActivity {
 				podcastsAdapter.notifyDataSetChanged();
 				showPodcasts();
 			};
-		});
+		});*/
 
-		((Button) findViewById(R.id.down)).setOnClickListener(new OnClickListener() {
+		/*((Button) findViewById(R.id.down)).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (contentService.isPlaying())
@@ -123,26 +146,22 @@ public class PodcastList extends BaseActivity {
 				podcastsAdapter.notifyDataSetChanged();
 				showPodcasts();
 			};
-		});
+		});*/
 	}
 
-	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-		super.onCreateContextMenu(menu, v, menuInfo);
+		//super.onCreateContextMenu(menu, v, menuInfo);
 		menu.add("Play");
 		menu.add("Delete");
 		menu.add("Delete All Before");
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.podcasts_menu, menu);
-		return true;
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		MenuInflater mInflater = new MenuInflater(getActivity().getApplicationContext());
+		mInflater.inflate(R.menu.podcasts_menu, menu);
 	}
 
-	@Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+	public void onMenuItemSelected(int featureId, MenuItem item) {
 
 		if (item.getItemId() == R.id.deleteListenedTo) {
 			String currTitle = "";
@@ -166,7 +185,7 @@ public class PodcastList extends BaseActivity {
 		} else if (item.getItemId() == R.id.deleteAllPodcasts) {
 
 			// Ask the user if they want to really delete all
-			new AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert).setTitle("Delete All?")
+			/*new AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert).setTitle("Delete All?")
 					.setMessage("Do you really want to delete all downloaded podcasts?")
 					.setPositiveButton("Confirm Delete All", new DialogInterface.OnClickListener() {
 						@Override
@@ -178,11 +197,10 @@ public class PodcastList extends BaseActivity {
 						}
 
 					}).setNegativeButton("Cancel", null).show();
-
-			return true;
+			*/
 		}
 		if (item.getItemId() == R.id.eraseDownloadHistory) {
-			new AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert).setMessage("Erase Download History?")
+			/*new AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert).setMessage("Erase Download History?")
 					.setPositiveButton("Erase", new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
@@ -191,14 +209,14 @@ public class PodcastList extends BaseActivity {
 						}
 
 					}).setNegativeButton("Cancel", null).show();
-
+			*/
 		}
-		return super.onMenuItemSelected(featureId, item);
+		//return super.onMenuItemSelected(featureId, item);
 	}
 
 	protected void showPodcasts() {
 
-		ListView listView = (ListView) findViewById(R.id.list);
+		ListView listView = (ListView) V.findViewById(R.id.list);
 
 		MetaHolder metaHolder = new MetaHolder();
 		list.clear();
@@ -232,6 +250,7 @@ public class PodcastList extends BaseActivity {
 
 		// When doing a delete before, we rebuild the list, but the adapter is
 		// ok.
+		/*
 		if (podcastsAdapter == null) {
 			podcastsAdapter = new SimpleAdapter(this, list,
 			// R.layout.main_item_two_line_row, new String[] { "line1",
@@ -270,6 +289,7 @@ public class PodcastList extends BaseActivity {
 		} else {
 			podcastsAdapter.notifyDataSetChanged();
 		}
+		*/
 
 	}
 
@@ -300,11 +320,11 @@ public class PodcastList extends BaseActivity {
 
 	public List<Button> getBarButtons() {
 		List<Button> barButtons = new ArrayList<Button>();
-		barButtons.add((Button) findViewById(R.id.delete));
-		barButtons.add((Button) findViewById(R.id.top));
-		barButtons.add((Button) findViewById(R.id.up));
-		barButtons.add((Button) findViewById(R.id.down));
-		barButtons.add((Button) findViewById(R.id.bottom));
+		barButtons.add((Button) V.findViewById(R.id.delete));
+		barButtons.add((Button) V.findViewById(R.id.top));
+		barButtons.add((Button) V.findViewById(R.id.up));
+		barButtons.add((Button) V.findViewById(R.id.down));
+		barButtons.add((Button) V.findViewById(R.id.bottom));
 		return barButtons;
 	}
 
@@ -335,6 +355,7 @@ public class PodcastList extends BaseActivity {
 			final MetaFile mfile = metaHolder.get(tag.position);
 
 			// Ask the user if they want to really delete all
+			/*
 			new AlertDialog.Builder(PodcastList.this).setIcon(android.R.drawable.ic_dialog_alert).setTitle("Delete Before?")
 					.setMessage("Delete all before " + mfile.getTitle())
 					.setPositiveButton("Confirm Delete " + tag.position + " podcasts", new DialogInterface.OnClickListener() {
@@ -351,7 +372,7 @@ public class PodcastList extends BaseActivity {
 						}
 
 					}).setNegativeButton("Cancel", null).show();
-
+			*/
 			return true;
 		}
 	};

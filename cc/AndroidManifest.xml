@@ -14,8 +14,8 @@
         android:icon="@drawable/ccp_launcher"
         android:label="Car Cast" >
         <activity
-            android:name=".ui.MainActivity"
-            android:label="Car Cast" > <!-- .ui.CarCast -->
+            android:name=".ui.SwipeActivity"
+            android:label="@string/title_activity_secondary" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -161,6 +161,9 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+	<uses-permission android:name="android.permission.USE_CREDENTIALS" />
 
     <supports-screens
         android:anyDensity="true"

@@ -3,6 +3,7 @@ package com.bottiger.cc.ui;
 import java.util.List;
 
 import android.app.Activity;
+import android.support.v4.app.FragmentActivity;
 
 import com.bottiger.cc.core.CarCastApplication;
 import com.bottiger.cc.core.ContentServiceListener;
@@ -11,7 +12,7 @@ import com.bottiger.cc.services.ContentService;
 import com.bottiger.cc.services.PlayStatusListener;
 
 
-public abstract class BaseActivity extends Activity implements ContentServiceListener, PlayStatusListener {
+public abstract class BaseActivity extends FragmentActivity implements ContentServiceListener, PlayStatusListener {
 	ContentService contentService;
 
 	public ContentService getContentService() {

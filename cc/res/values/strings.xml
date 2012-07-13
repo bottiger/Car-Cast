@@ -6,5 +6,7 @@
     <string name="title_section1">Podcasts</string>
     <string name="title_section2">Player</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="title_section3">Section 3</string>
+    <string name="title_activity_secondary">SecondaryActivity</string>
 
 </resources>
