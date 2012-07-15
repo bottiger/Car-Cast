@@ -5,7 +5,10 @@ import com.bottiger.cc.R.id;
 import com.bottiger.cc.R.layout;
 import com.bottiger.cc.R.menu;
 import com.bottiger.cc.R.string;
+import com.bottiger.cc.core.AuthGoogleReader;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -51,6 +54,12 @@ public class SwipeActivity extends FragmentActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        
+        //AccountManager.getAccountsByType("google")
+        //AccountManager am = new AccountManager();
+        Account[] a = AccountManager.get(getApplicationContext()).getAccountsByType("com.google");
+        AuthGoogleReader agr = new AuthGoogleReader();
+        agr.refreshAuthToken(this, a[0]);
 
     }
 
