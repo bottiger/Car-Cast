@@ -5,7 +5,7 @@ import com.bottiger.cc.R.id;
 import com.bottiger.cc.R.layout;
 import com.bottiger.cc.R.menu;
 import com.bottiger.cc.R.string;
-import com.bottiger.cc.core.AuthGoogleReader;
+import com.bottiger.cc.core.GoogleReader;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -58,8 +58,9 @@ public class SwipeActivity extends FragmentActivity {
         //AccountManager.getAccountsByType("google")
         //AccountManager am = new AccountManager();
         Account[] a = AccountManager.get(getApplicationContext()).getAccountsByType("com.google");
-        AuthGoogleReader agr = new AuthGoogleReader();
+        GoogleReader agr = new GoogleReader();
         agr.refreshAuthToken(this, a[0]);
+        agr.getSubscriptionsFromReader();
 
     }
 

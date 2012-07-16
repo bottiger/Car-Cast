@@ -79,6 +79,9 @@ public class ContentService extends Service implements OnCompletionListener {
 	}
 
 	public boolean addSubscription(Subscription toAdd) {
+		List<Subscription> currentSubscribtions = this.getSubscriptions(); 
+		if (currentSubscribtions.contains(toAdd))
+			return true; // if the subscription already exist everything is fine
 		return subHelper.addSubscription(toAdd);
 	}
 
