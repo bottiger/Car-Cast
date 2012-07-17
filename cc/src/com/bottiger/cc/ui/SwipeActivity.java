@@ -27,7 +27,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class SwipeActivity extends FragmentActivity {
+public class SwipeActivity extends BaseFragmentActivity {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the
@@ -58,7 +58,7 @@ public class SwipeActivity extends FragmentActivity {
         //AccountManager.getAccountsByType("google")
         //AccountManager am = new AccountManager();
         Account[] a = AccountManager.get(getApplicationContext()).getAccountsByType("com.google");
-        GoogleReader agr = new GoogleReader();
+        GoogleReader agr = new GoogleReader(this.getContentService());
         agr.refreshAuthToken(this, a[0]);
         agr.getSubscriptionsFromReader();
 

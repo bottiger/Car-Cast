@@ -98,10 +98,6 @@ public class GoogleReader {
 		this.contentService = contentService;
 	}
 
-	public GoogleReader() {
-		this.contentService = null; // FIXME
-	}
-
 	public void oauth() throws Exception {
 		new HTTPRequest().execute();
 	}
@@ -283,8 +279,8 @@ public class GoogleReader {
 
 				NodeList ns = n.getChildNodes();
 
-				String podName;
-				String podFeed;
+				String podName = null;
+				String podFeed = null;
 
 				for (int j = 0; j < ns.getLength(); j++) {
 					Node propertyNode = ns.item(j);
@@ -296,15 +292,15 @@ public class GoogleReader {
 						Log.v(TAG, att);
 
 						if (att.equalsIgnoreCase("id")) {
-							podFeed = att;
+							podFeed = child.getTextContent();
 						} else if (att.equalsIgnoreCase("title")) {
-							podName = att;
+							podName = child.getTextContent();
 						}
 					}
 				}
 
-				int jj = 55;
-				jj = jj +7;
+				Subscription podcast = new Subscription(podName, podFeed);
+				contentService.addSubscription(podcast);
 			}
 
 			/*
