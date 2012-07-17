@@ -57,10 +57,7 @@ public class SwipeActivity extends BaseFragmentActivity {
         
         //AccountManager.getAccountsByType("google")
         //AccountManager am = new AccountManager();
-        Account[] a = AccountManager.get(getApplicationContext()).getAccountsByType("com.google");
-        GoogleReader agr = new GoogleReader(this.getContentService());
-        agr.refreshAuthToken(this, a[0]);
-        agr.getSubscriptionsFromReader();
+
 
     }
 

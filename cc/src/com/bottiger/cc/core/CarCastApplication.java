@@ -1,5 +1,7 @@
 package com.bottiger.cc.core;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
@@ -193,6 +195,11 @@ public class CarCastApplication extends Application {
 			if (name.getClassName().equals(ContentService.class.getName())) {
 				contentService = ((LocalBinder) iservice).getService();
 				contentServiceListener.onContentServiceChanged(contentService);
+				
+		        Account[] a = AccountManager.get(getApplicationContext()).getAccountsByType("com.google");
+		        GoogleReader agr = new GoogleReader(contentService);
+		        agr.refreshAuthToken(CarCastApplication.this, a[0]);
+		        agr.getSubscriptionsFromReader();
 			}
 		}
 

@@ -75,6 +75,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 /**
@@ -102,9 +103,10 @@ public class GoogleReader {
 		new HTTPRequest().execute();
 	}
 
-	public void refreshAuthToken(final Activity activity, final Account account) {
-		final SharedPreferences settings = activity.getSharedPreferences(
-				PREF_NAME, 0);
+	public void refreshAuthToken(final Context context, final Account account) {
+		//final SharedPreferences settings = activity.getSharedPreferences(
+		//		PREF_NAME, 0);
+		final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
 		String accessToken = settings.getString(PREF_TOKEN, "");
 		final AccountManagerCallback<Bundle> cb = new AccountManagerCallback<Bundle>() {
 			public void run(AccountManagerFuture<Bundle> future) {
@@ -121,7 +123,7 @@ public class GoogleReader {
 						editor.putString(PREF_TOKEN, authToken);
 						editor.commit();
 					} else if (authIntent != null) {
-						activity.startActivity(authIntent);
+						context.startActivity(authIntent);
 					} else {
 						Log.e(TAG,
 								"AccountManager was unable to obtain an authToken.");
@@ -131,10 +133,9 @@ public class GoogleReader {
 				}
 			}
 		};
-
-		AccountManager.get(activity).invalidateAuthToken("com.google",
+		AccountManager.get(context).invalidateAuthToken("com.google",
 				accessToken);
-		this.amf = AccountManager.get(activity).getAuthToken(account, SCOPE,
+		this.amf = AccountManager.get(context).getAuthToken(account, SCOPE,
 				true, cb, null);
 	}
 
@@ -292,7 +293,7 @@ public class GoogleReader {
 						Log.v(TAG, att);
 
 						if (att.equalsIgnoreCase("id")) {
-							podFeed = child.getTextContent();
+							podFeed = child.getTextContent().substring(5); // remove "feed/" from tge beginning
 						} else if (att.equalsIgnoreCase("title")) {
 							podName = child.getTextContent();
 						}
