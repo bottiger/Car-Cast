@@ -187,6 +187,15 @@ public class CarCastApplication extends Application {
 		super.onCreate();
 		serviceIntent = new Intent(this, ContentService.class);
 	}
+	
+	// Providing the context to SQLiteOpenHelper
+    private static CarCastApplication instance;
+    public CarCastApplication() {
+        instance = this;
+    }
+    public static Context getContext() {
+        return instance;
+    }
 
 	private ServiceConnection contentServiceConnection = new ServiceConnection() {
 		@Override

@@ -2,13 +2,14 @@ package com.bottiger.cc.services;
 
 import java.net.URL;
 import java.util.Properties;
+import android.content.ContentValues;
 
 /** Meta information about a podcast.  Loosely defined so things can be added later (like time) */
-public class MetaNet {
+public class EpisodeOnlineData {
 
 	 Properties properties = new Properties();
 
-	public MetaNet(String feedName, URL url, int size, String mimetype) {	
+	public EpisodeOnlineData(String feedName, URL url, int size, String mimetype) {	
 		properties.setProperty("feedName", feedName);
 		properties.setProperty("url", url.toString());
 		properties.setProperty("size", Integer.toString(size));

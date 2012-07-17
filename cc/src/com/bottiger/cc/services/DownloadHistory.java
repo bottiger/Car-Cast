@@ -72,7 +72,7 @@ public class DownloadHistory implements Sayer {
 	 * 
 	 * @param metaNet podcast metadata
 	 */
-	public void add(MetaNet metaNet) {
+	public void add(EpisodeOnlineData metaNet) {
 		historyEntries.add(new HistoryEntry(metaNet.getSubscription(), metaNet.getUrl()));
 		save();
 	}
@@ -83,7 +83,7 @@ public class DownloadHistory implements Sayer {
 	 * @param metaNet the item to check for
 	 * @return true it the item is in the history
 	 */
-	public boolean contains(MetaNet metaNet) {	
+	public boolean contains(EpisodeOnlineData metaNet) {	
 		for(HistoryEntry historyEntry: historyEntries){
 			if(!historyEntry.subscription.equals(UNKNOWN_SUBSCRIPTION) &&
 					!historyEntry.subscription.equals(metaNet.getSubscription())){

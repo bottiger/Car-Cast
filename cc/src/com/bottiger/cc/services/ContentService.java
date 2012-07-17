@@ -106,7 +106,7 @@ public class ContentService extends Service implements OnCompletionListener {
 
 	}
 
-	private MetaFile currentMeta() {
+	private Episode currentMeta() {
 		if (metaHolder.getSize() == 0) {
 			return null;
 		}
@@ -339,7 +339,7 @@ public class ContentService extends Service implements OnCompletionListener {
 	public String getPodcastEmailSummary() {
 		StringBuilder sb = new StringBuilder();
 		if (currentPodcastInPlayer < metaHolder.getSize()) {
-			MetaFile mf = currentMeta();
+			Episode mf = currentMeta();
 			if (mf != null) {
 				sb.append("\nWanted to let you know about this podcast:\n\n");
 				sb.append("\nTitle: " + mf.getTitle());

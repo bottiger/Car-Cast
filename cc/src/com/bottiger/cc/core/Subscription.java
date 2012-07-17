@@ -56,6 +56,7 @@ public class Subscription implements Parcelable, Comparable<Subscription> {
         return "Subscription: url=" + url + " ; name="+ name + "; max=" + maxDownloads + " ; ordering=" + orderingPreference + " ; enabled=" + enabled;
     }
 
+    /* remove? */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);

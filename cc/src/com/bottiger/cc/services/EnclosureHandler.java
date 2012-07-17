@@ -23,7 +23,7 @@ public class EnclosureHandler extends DefaultHandler {
 
 	public int max = 2;
 
-	public List<MetaNet> metaNets = new ArrayList<MetaNet>();
+	public List<EpisodeOnlineData> metaNets = new ArrayList<EpisodeOnlineData>();
 
 	private boolean needTitle = true;
 	private boolean startTitle;
@@ -132,7 +132,7 @@ public class EnclosureHandler extends DefaultHandler {
 							// some feeds have bad lengths
 						}
 					}
-				    MetaNet metaNet = new MetaNet(feedName, new URL(atts.getValue("url")), length, getMimetype(atts.getValue("url"), atts.getValue("type")));
+				    EpisodeOnlineData metaNet = new EpisodeOnlineData(feedName, new URL(atts.getValue("url")), length, getMimetype(atts.getValue("url"), atts.getValue("type")));
 					metaNet.setTitle(lastTitle);
 					if (history.contains(metaNet)) {
 						// stop getting podcasts after we find one in our
@@ -140,7 +140,7 @@ public class EnclosureHandler extends DefaultHandler {
 						max = STOP;
 					} else {		
 						boolean found = false;
-						for(MetaNet i: metaNets){
+						for(EpisodeOnlineData i: metaNets){
 							if(i.getUrl().equals(metaNet.getUrl())){
 								found = true;
 							}

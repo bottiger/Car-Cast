@@ -33,7 +33,7 @@ import com.bottiger.cc.core.ContentServiceListener;
 import com.bottiger.cc.core.Util;
 import com.bottiger.cc.services.ContentService;
 import com.bottiger.cc.services.DownloadHistory;
-import com.bottiger.cc.services.MetaFile;
+import com.bottiger.cc.services.Episode;
 import com.bottiger.cc.services.MetaHolder;
 import com.bottiger.cc.services.PlayStatusListener;
 import com.bottiger.cc.R;
@@ -161,7 +161,7 @@ public class PodcastList extends Fragment implements ContentServiceListener,
 			currTitle = contentService.currentTitle();
 			MetaHolder metaHolder = new MetaHolder();
 			for (int i = metaHolder.getSize() - 1; i >= 0; i--) {
-				MetaFile metaFile = metaHolder.get(i);
+				Episode metaFile = metaHolder.get(i);
 				if (currTitle.equals(metaFile.getTitle())) {
 					continue;
 				}
@@ -222,7 +222,7 @@ public class PodcastList extends Fragment implements ContentServiceListener,
 		list.clear();
 
 		for (int i = 0; i < metaHolder.getSize(); i++) {
-			MetaFile metaFile = metaHolder.get(i);
+			Episode metaFile = metaHolder.get(i);
 			HashMap<String, String> item = new HashMap<String, String>();
 			if (contentService != null
 					&& contentService.currentTitle()
@@ -337,7 +337,7 @@ public class PodcastList extends Fragment implements ContentServiceListener,
 			Tag tag = (Tag) v.getTag();
 
 			MetaHolder metaHolder = new MetaHolder();
-			MetaFile mfile = metaHolder.get(tag.position);
+			Episode mfile = metaHolder.get(tag.position);
 
 			if (mfile.getTitle().equals(contentService.currentTitle())) {
 				contentService.pauseOrPlay();
@@ -356,7 +356,7 @@ public class PodcastList extends Fragment implements ContentServiceListener,
 			final Tag tag = (Tag) v.getTag();
 
 			final MetaHolder metaHolder = new MetaHolder();
-			final MetaFile mfile = metaHolder.get(tag.position);
+			final Episode mfile = metaHolder.get(tag.position);
 
 			// Ask the user if they want to really delete all
 			/*

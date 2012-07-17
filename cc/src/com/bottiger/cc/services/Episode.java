@@ -9,21 +9,29 @@ import java.util.Properties;
 import android.media.MediaPlayer;
 import android.util.Log;
 
+import com.bottiger.cc.core.PodcastStore;
 import com.bottiger.cc.trace.TraceUtil;
 
 /**
- * Meta information about a podcast. From rss metadata (hopefully someday from id3tags as well.)
+ * Meta information about a podcast. From rss metadata (hopefully someday from
+ * id3tags as well.)
  */
-public class MetaFile {
+public class Episode {
 
 	File file;
 	Properties properties = new Properties();
-	
-	String getFilename(){
+
+	String getFilename() {
 		return file.getName();
 	}
 
-	MetaFile(File file) {
+	public Episode(String title, String feedName, Integer currentPos) {
+		properties.setProperty("title", title);
+		properties.setProperty("feedName", feedName);
+		properties.setProperty("currentPos", currentPos.toString());
+	}
+
+	Episode(File file) {
 		this.file = file;
 
 		File metaFile = getMetaPropertiesFile();
@@ -60,7 +68,7 @@ public class MetaFile {
 
 	}
 
-	public MetaFile(MetaNet metaNet, File castFile) {
+	public Episode(EpisodeOnlineData metaNet, File castFile) {
 		file = castFile;
 		properties = metaNet.properties;
 		computeDuration();
@@ -114,6 +122,12 @@ public class MetaFile {
 	}
 
 	public void save() {
+		// Save to SQLite
+		PodcastStore pcs = new PodcastStore();
+		pcs.addEpisode(this);
+		
+		
+		// Deprecated. Save to file.
 		FileOutputStream fos = null;
 		try {
 			fos = new FileOutputStream(getMetaPropertiesFile());
@@ -150,7 +164,7 @@ public class MetaFile {
 	}
 
 	public boolean isListenedTo() {
-		return properties.getProperty("listenedTo" ) != null;
+		return properties.getProperty("listenedTo") != null;
 	}
 
 }

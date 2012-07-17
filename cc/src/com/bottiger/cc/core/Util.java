@@ -29,7 +29,7 @@ public class Util {
 		Log.i("CarCast", "Processing URL: " + url);
 		SAXParser sp = saxParserFactory.newSAXParser();
 		URLConnection connection = new URL(url).openConnection();
-		connection.setRequestProperty("User-Agent", "http://jadn.com/carcast");
+		connection.setRequestProperty("User-Agent", "http://bottiger.org/made/SoundWaves");
 		connection.setConnectTimeout(30 * 1000);
 		connection.setReadTimeout(20 * 1000);
 		String charset = getCharset(connection.getContentType());

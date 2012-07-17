@@ -18,7 +18,7 @@ import com.bottiger.cc.core.Config;
 /** Meta information about podcasts. **/
 public class MetaHolder {
 
-	private List<MetaFile> metas = new ArrayList<MetaFile>();
+	private List<Episode> metas = new ArrayList<Episode>();
 	File order = new File(Config.PodcastsRoot, "podcast-order.txt");
 
 	public MetaHolder() {
@@ -30,12 +30,12 @@ public class MetaHolder {
 		metas.remove(i);
 	}
 
-	public MetaFile extract(int i) {
+	public Episode extract(int i) {
 		// metas.get(i).delete();
 		return metas.remove(i);
 	}
 
-	public MetaFile get(int current) {
+	public Episode get(int current) {
 		return metas.get(current);
 	}
 
@@ -61,7 +61,7 @@ public class MetaHolder {
 				while ((line = dis.readLine()) != null) {
 					File file = new File(Config.PodcastsRoot, line);
 					if (file.exists()) {
-						metas.add(new MetaFile(file));
+						metas.add(new Episode(file));
 					}
 				}
 			} catch (IOException e) {
@@ -91,13 +91,13 @@ public class MetaHolder {
 		});
 		Log.i("carcast", "loadMeta found:"+foundFiles.size()+" meta:"+metas.size());
 		for (File file : foundFiles) {
-			metas.add(new MetaFile(file));
+			metas.add(new Episode(file));
 		}
 
 	}
 
 	boolean alreadyHas(File file) {
-		for (MetaFile metaFile : metas) {
+		for (Episode metaFile : metas) {
 			if (metaFile.getFilename().equals(file.getName())) {
 				return true;
 			}
@@ -106,17 +106,17 @@ public class MetaHolder {
 	}
 
 	public SortedSet<Integer> moveTop(SortedSet<Integer> checkedItems) {
-		List<MetaFile> tops = new ArrayList<MetaFile>();
+		List<Episode> tops = new ArrayList<Episode>();
 		Integer[] ciArry = checkedItems.toArray(new Integer[0]);
 		for (int i = checkedItems.size() - 1; i >= 0; i--) {
 			tops.add(0, metas.get(ciArry[i]));
 			metas.remove(metas.get(ciArry[i]));
 		}
-		for (MetaFile metaFile : tops) {
+		for (Episode metaFile : tops) {
 			metas.add(0, metaFile);
 		}
 		checkedItems.clear();
-		for (MetaFile atop : tops) {
+		for (Episode atop : tops) {
 			checkedItems.add(metas.indexOf(atop));
 		}
 		saveOrder();
@@ -140,22 +140,22 @@ public class MetaHolder {
 			return;
 		checkedItems.remove(i);
 		checkedItems.add(i - 1);
-		MetaFile o = metas.remove(i);
+		Episode o = metas.remove(i);
 		metas.add(i - 1, o);
 	}
 
 	public SortedSet<Integer> moveBottom(SortedSet<Integer> checkedItems) {
-		List<MetaFile> bottoms = new ArrayList<MetaFile>();
+		List<Episode> bottoms = new ArrayList<Episode>();
 		Integer[] ciArry = checkedItems.toArray(new Integer[0]);
 		for (int i = checkedItems.size() - 1; i >= 0; i--) {
 			bottoms.add(0, metas.get(ciArry[i]));
 			metas.remove(metas.get(ciArry[i]));
 		}
-		for (MetaFile metaFile : bottoms) {
+		for (Episode metaFile : bottoms) {
 			metas.add(metaFile);
 		}
 		checkedItems.clear();
-		for (MetaFile atop : bottoms) {
+		for (Episode atop : bottoms) {
 			checkedItems.add(metas.indexOf(atop));
 		}
 		saveOrder();
@@ -177,13 +177,13 @@ public class MetaHolder {
 	private void swapForward(SortedSet<Integer> checkedItems, int i) {
 		checkedItems.remove(i);
 		checkedItems.add(i + 1);
-		MetaFile o = metas.remove(i);
+		Episode o = metas.remove(i);
 		metas.add(i + 1, o);
 	}
 
 	public void saveOrder() {
 		StringBuilder sb = new StringBuilder();
-		for (MetaFile metaFile : metas) {
+		for (Episode metaFile : metas) {
 			sb.append(metaFile.getFilename());
 			sb.append('\n');
 		}

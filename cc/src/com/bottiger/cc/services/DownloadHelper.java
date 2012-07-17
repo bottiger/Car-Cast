@@ -79,7 +79,7 @@ public class DownloadHelper implements Sayer {
 
 		say("History of downloads contains " + history.size() + " podcasts.");
 
-		List<MetaNet> enclosures = new ArrayList<MetaNet>();
+		List<EpisodeOnlineData> enclosures = new ArrayList<EpisodeOnlineData>();
 
 		SAXParserFactory spf = SAXParserFactory.newInstance();
 
@@ -126,8 +126,8 @@ public class DownloadHelper implements Sayer {
 
 		say("\nTotal enclosures " + enclosures.size());
 
-		List<MetaNet> newPodcasts = new ArrayList<MetaNet>();
-		for (MetaNet metaNet : enclosures) {
+		List<EpisodeOnlineData> newPodcasts = new ArrayList<EpisodeOnlineData>();
+		for (EpisodeOnlineData metaNet : enclosures) {
 			if (history.contains(metaNet))
 				continue;
 			newPodcasts.add(metaNet);
@@ -136,7 +136,7 @@ public class DownloadHelper implements Sayer {
 		contentService.updateNotification(newPodcasts.size() + " podcasts will be downloaded.");
 
 		totalPodcasts = newPodcasts.size();
-		for (MetaNet metaNet : newPodcasts) {
+		for (EpisodeOnlineData metaNet : newPodcasts) {
 			podcastsTotalBytes += metaNet.getSize();
 		}
 
@@ -184,7 +184,7 @@ public class DownloadHelper implements Sayer {
 				history.add(newPodcasts.get(i));
 
 				tempFile.renameTo(castFile);
-				new MetaFile(newPodcasts.get(i), castFile).save();
+				new Episode(newPodcasts.get(i), castFile).save();
 
 				got++;
 				if (totalForThisPodcast != newPodcasts.get(i).getSize()) {
